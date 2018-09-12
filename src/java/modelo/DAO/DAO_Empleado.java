@@ -103,7 +103,7 @@ public class DAO_Empleado {
         int pos = (int) arbol.getPosArchivo((String) correo);
         if (pos != -1) {
             archivo.seek(pos);
-            return new Operador(archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), (new DAO_Sede()).buscar(archivo.readInt()));
+            return new Operador(archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), (new DAO_Sede()).buscar(archivo.readUTF()));
         }
 
         return null;

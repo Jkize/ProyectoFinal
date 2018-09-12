@@ -52,7 +52,7 @@
                   </nav>
         <div class="row">
             <div class="col-sm-8">
-                <form>
+                <form action="ServletECS" method="POST">
                     <h1>Empresas: </h1>
                     <hr>
                     <label id="codigo" style="margin-right: 10px;">Código: </label>

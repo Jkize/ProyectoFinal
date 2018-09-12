@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package modelo.DAO;
- 
+
 import Estructura.Arbol_Archivo_IdString;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -68,7 +68,7 @@ public class DAO_Sede implements DAO<Sede> {
         RandomAccessFile arbol = new RandomAccessFile("arbolSede", "rw");
         int tam = (int) (arbol.length() / (8 + 12));
         for (int i = 0; i < tam; i++) {
-            Sede sed = buscar((int) arbol.readLong());
+            Sede sed = buscar((String) arbol.readUTF());
             arbol.skipBytes(12);
             if (sed != null) {
                 sedes.add(sed);
@@ -77,4 +77,13 @@ public class DAO_Sede implements DAO<Sede> {
         return sedes;
     }
 
+    /*
+    public static void main(String[] args) throws FileNotFoundException, IOException {
+        DAO_Sede daoSede=new DAO_Sede();
+        daoSede.crear(new Sede("Calle 100                    ".substring(0,15)));
+        daoSede.crear(new Sede("Celta                          ".substring(0,15)));
+        for(Sede sede: daoSede.obtenerSedes() ){
+            System.out.println(sede.getCodigo());
+        }
+    }*/
 }

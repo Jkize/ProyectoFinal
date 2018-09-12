@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import modelo.Coordinador;
+import modelo.Operador;
 
 /**
  *
@@ -36,7 +37,7 @@ public class DAO_Coordinador implements DAO<Coordinador> {
             archivo.writeUTF("-                                        ".substring(0, 35));
             archivo.writeUTF("-                                       ".substring(0, 8));
             archivo.writeUTF("-                                        ".substring(0, 8));
-            archivo.writeInt(0);
+            archivo.writeUTF("                              ".substring(0,15));
             return true;
         }
         return false;
@@ -78,6 +79,15 @@ public class DAO_Coordinador implements DAO<Coordinador> {
         }
         return false;
 
+    }
+    
+    public static void main(String[] args) throws FileNotFoundException, IOException {
+        DAO_Coordinador cor=new DAO_Coordinador();
+        DAO_Empleado emp=new  DAO_Empleado();
+        cor.crear(new Coordinador("coordinador@gmail.com                     ".substring(0,35),"Cordinador FULL HD                          ".substring(0,30) , "root                     ".substring(0,15), "Coordinador        ".substring(0,10)));
+        Operador op=emp.buscarEmpleado("coordinador@gmail.com                     ".subSequence(0, 35));
+        System.out.println(op.getContraseña());
+    
     }
 
 }
