@@ -29,17 +29,16 @@ public class DAO_Operador implements DAO<Operador> {
     @Override
     public boolean crear(Operador operador) throws FileNotFoundException, IOException {
         archivo.seek(archivo.length());
-
-        if ((new DAO_Sede()).buscar(operador.getSede().getCodigo()) != null) {
-            if (operador.getCorreoPlanta().equals("")) {
+        
+            if (operador.getCorreoPlanta().equals("                                                ".subSequence(0, 35))) {
                 if (arbol.añadir(operador.getCorreo(), (int) archivo.length())) {
                     archivo.writeUTF(operador.getCorreo());
                     archivo.writeUTF(operador.getNombre());
                     archivo.writeUTF(operador.getContraseña());
                     archivo.writeUTF(operador.getCargo());
                     archivo.writeUTF("                                                         ".substring(0, 35));
-                    archivo.writeUTF("                               ".substring(0, 8));
-                    archivo.writeUTF("                               ".substring(0, 8));
+                    archivo.writeUTF("                               ".substring(0, 10));
+                    archivo.writeUTF("                               ".substring(0, 10));
                     archivo.writeUTF(operador.getSede().getCodigo());
                     return true;
                 }
@@ -57,7 +56,7 @@ public class DAO_Operador implements DAO<Operador> {
                     return true;
                 }
             }
-        }
+        
         return false;
 
     }
@@ -92,8 +91,8 @@ public class DAO_Operador implements DAO<Operador> {
                 archivo.writeUTF(operador.getContraseña());
                 archivo.writeUTF(operador.getCargo());
                 archivo.writeUTF("                                                         ".substring(0, 35));
-                archivo.writeUTF("                               ".substring(0, 8));
-                archivo.writeUTF("                               ".substring(0, 8));
+                archivo.writeUTF("                               ".substring(0, 10));
+                archivo.writeUTF("                               ".substring(0, 10));
                 archivo.writeUTF(operador.getSede().getCodigo());
                 return true;
 

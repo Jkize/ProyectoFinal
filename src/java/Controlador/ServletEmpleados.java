@@ -59,9 +59,10 @@ public class ServletEmpleados extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         RequestDispatcher rq = request.getRequestDispatcher("empleados.jsp");
+
         ArrayList<Sede> sedes = this.daoSede.obtenerSedes();
+
         request.setAttribute("sedes", sedes);
-        System.out.println("Entraaaa "+sedes.size());
         rq.forward(request, response);
 
     }
@@ -77,6 +78,40 @@ public class ServletEmpleados extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String correo = request.getParameter("correo");
+        String nombre = request.getParameter("nombre");
+        String contrasena = request.getParameter("contrasena");
+        String cargo = request.getParameter("cargo");
+        String sede = (request.getParameter("sede") + "           ").substring(0, 15);
+        String correoOperario = request.getParameter("correoOperario");
+        String fechaInicio = request.getParameter("fechaInicio");
+        String fechaFin = request.getParameter("fechaFin");
+
+        if (request.getParameter("ingresar") != null) {
+
+            if (correo != null && nombre != null && contrasena != null) {
+
+                switch (cargo.trim()) {
+
+                    case "Operador":
+                        System.out.println("ENtra 3");
+                        operador(correo, nombre, contrasena, cargo, sede, correoOperario, fechaInicio, fechaFin);
+                        break;
+                    case "Coordinador":
+                        break;
+                    case "Suplente":
+                        suplente(correo, nombre, contrasena, cargo,  correoOperario, fechaInicio, fechaFin);
+                        break;
+                }
+            }
+        }
+
+        RequestDispatcher rq = request.getRequestDispatcher("empleados.jsp");
+        ArrayList<Empleado> empleados = this.daoEmpleado.obtenerEmpleados();
+        request.setAttribute("empleados", empleados);
+        ArrayList<Sede> sedes = this.daoSede.obtenerSedes();
+        request.setAttribute("sedes", sedes);
+        rq.forward(request, response);
 
     }
 
@@ -90,4 +125,44 @@ public class ServletEmpleados extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private void operador(String correo, String nombre, String contraseña, String cargo, String sede, String correoOperario, String fechaInicio, String fechaFin) throws IOException {
+        if (correoOperario != null) {
+            this.daoOperador.crear(new Operador((correo + "                                     ").substring(0, 35),
+                    (nombre + "                                     ").substring(0, 30),
+                    (contraseña + "                                       ").substring(0, 15),
+                    (cargo + "          ").substring(0, 11),
+                    (correoOperario + "                                     ").substring(0, 35),
+                    fechaInicio, fechaFin, new Sede(sede)));
+        } else {
+            this.daoOperador.crear(new Operador((correo + "                                     ").substring(0, 35),
+                    (nombre + "                                        ").substring(0, 30),
+                    (contraseña + "                 ").substring(0, 15),
+                    (cargo + "          ").substring(0, 11),
+                    ("                                                      ").substring(0, 35),
+                    "                ".substring(10), "                ".substring(10), new Sede(sede)));
+
+        }
+
+    }
+
+    private void suplente(String correo, String nombre, String contrasena, String cargo, String correoOperario, String fechaInicio, String fechaFin) throws IOException {
+
+        if (correoOperario != null && fechaFin != null && fechaInicio != null) {
+            this.daoSuplente.crear(new Suplente((correo + "                                     ").substring(0, 35),
+                    (nombre + "                                                ").substring(0, 30),
+                    (contrasena + "                                    ").substring(15),
+                    (cargo + "    ").substring(0, 11),
+                    this.daoOperador.buscar((correoOperario + "                                                   ").substring(0,35)),
+                    fechaInicio,
+                    fechaFin));
+        }
+
+    }
+
+    /**
+     * this.daoOperador.crear(new Operador( (correo + " ").substring(0, 35),
+     * (nombre + " ").substring(0, 30), (contraseña + " ").substring(0, 15),
+     * (cargo + " ").substring(0, 10), (correoOperario + " ").substring(0, 35),
+     * fechaInicio, fechaFin, this.daoSede.buscar(sede)));
+     */
 }

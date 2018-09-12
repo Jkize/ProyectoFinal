@@ -67,8 +67,8 @@ public class DAO_Sede implements DAO<Sede> {
        
         ArrayList<Sede> sedes = new ArrayList<>();
         RandomAccessFile archivoArbol = new RandomAccessFile("arbolSede", "rw");
-        int tam = (int) (archivoArbol.length() / (8 + 12));
-         
+        
+        int tam = (int) (archivoArbol.length() / (8 + 12));       
         for (int i = 0; i < tam; i++) {            
             Sede sed = buscar((String) archivoArbol.readUTF());
             archivoArbol.skipBytes(12);
@@ -86,7 +86,7 @@ public class DAO_Sede implements DAO<Sede> {
         daoSede.crear(new Sede("Calle 100                    ".substring(0,15)));
         daoSede.crear(new Sede("Celta                          ".substring(0,15)));
         for(Sede sede: daoSede.obtenerSedes() ){
-            System.out.println(sede.getCodigo());
+            System.out.println(sede.getCodigo().length());
         }
     }
 }

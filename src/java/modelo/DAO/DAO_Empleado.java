@@ -16,6 +16,7 @@ import java.util.Date;
 import modelo.Coordinador;
 import modelo.Empleado;
 import modelo.Operador;
+import modelo.Sede;
 import modelo.Suplente;
 
 /**
@@ -88,12 +89,15 @@ public class DAO_Empleado {
 
     public ArrayList<Empleado> obtenerEmpleados() throws FileNotFoundException, IOException {
         ArrayList<Empleado> lista = new ArrayList<>();
-        RandomAccessFile arbolArchivo = new RandomAccessFile("arbolEmpleado", "");
+        RandomAccessFile arbolArchivo = new RandomAccessFile("arbolEmpleado", "rw");
         int tam = (int) (arbolArchivo.length() / (37 + 12));
         for (int i = 0; i < tam; i++) {
             Operador op = buscarEmpleado(arbolArchivo.readUTF());
+            arbolArchivo.skipBytes(12);
             if (op != null) {
-                lista.add(op);
+                if (!(op.getCargo().trim()).equals("Coordinador")) {
+                    lista.add(op);
+                }
             }
         }
         return lista;
@@ -103,7 +107,12 @@ public class DAO_Empleado {
         int pos = (int) arbol.getPosArchivo((String) correo);
         if (pos != -1) {
             archivo.seek(pos);
-            return new Operador(archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), (new DAO_Sede()).buscar(archivo.readUTF()));
+
+            Operador ope = new Operador(archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), new Sede(archivo.readUTF()));
+            if (!(ope.getCargo().trim()).equals("Coordinador")) {
+                return ope;
+            }
+
         }
 
         return null;

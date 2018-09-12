@@ -29,7 +29,7 @@ public class DAO_Suplente implements DAO<Suplente> {
     @Override
     public boolean crear(Suplente suplente) throws FileNotFoundException, IOException {
         archivo.seek(archivo.length());
-        Operador operador = (new DAO_Operador()).buscar(suplente.getOperador().getCorreo());
+        Operador operador = suplente.getOperador();
 
         if (operador != null && arbol.añadir(suplente.getCorreo(), (int) archivo.length())) {
             archivo.writeUTF(suplente.getCorreo());

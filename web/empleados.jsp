@@ -97,19 +97,18 @@
                             <input type="text" name="nombre" id="nombre">
                             <br>
                             <label id="contraseña">Contraseña: </label>
-                            <input type="text" name="contraseña" id="contraseña">
+                            <input type="text" name="contrasena" id="contraseña">
                             <br>
                             <div class="form-group">
-                                <label for="cargo" id="cargo">Cargo: </label>
-                                <select id="cargo">
-                                    <option>Slamena</option>
-                                    <option>Shapka</option>
-                                    <option>Javier</option>
-                                    <option>Gonzalez</option>
+                                <label for="cargo" id="cargo" >Cargo: </label>
+                                <select id="cargo" name="cargo">
+                                    <option>Coordinador</option>
+                                    <option>Operador</option>
+                                    <option>Suplente</option> 
                                 </select>
                                 <br>
                                 <label for="sede" id="sede">Sede: </label>
-                                <select id="sede">
+                                <select id="sede" name="sede">
                                     <%if (request.getAttribute("sedes") != null) {
                                             for (Sede sede : (ArrayList<Sede>) request.getAttribute("sedes")) {
                                     %>
@@ -138,6 +137,19 @@
                             <input type="date" name="fechaFin" id="fechaFin">
                         </div>
                     </div>
+
+                    <div class="col-sm-4">
+                       
+                            <button type="submit" id="ingresar" name="ingresar">Ingresar</button>                      
+                        
+                            <button type="submit" id="acualizar" name="actualizar">Actualizar</button>                        
+                         
+                            <button type="submit" id="buscar" name="buscar">Buscar</button>                         
+                         
+                            <button type="submit"  id="editar" name="eliminar">Eliminar</button>
+                        
+                    </div>
+
                 </form>
 
             </div>
@@ -147,44 +159,38 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Firstname</th>
-                                <th>Lastname</th>
-                                <th>Email</th>
+                                <th>Codigo</th>
+                                <th>Nombre</th>
+                                <th>Cargo</th>
+                                <th>Sede</th>
                             </tr>
                         </thead>
                         <tbody>
+
+                            <%
+                                if (request.getAttribute("empleados") != null) {
+                                    ArrayList<Empleado> empleados = (ArrayList<Empleado>) request.getAttribute("empleados");
+                                    for (Empleado empleado : empleados) {
+                                   
+                                    
+
+                            %>
                             <tr>
-                                <td>John</td>
-                                <td>Doe</td>
-                                <td>john@example.com</td>
+                                <td><%=empleado.getCorreo()%> </td>
+                                <td><%=empleado.getNombre()%></td>
+                                <td><%=empleado.getCargo()%></td>
+                                <td><%=empleado.getSede().getCodigo()%></td>
                             </tr>
-                            <tr>
-                                <td>Mary</td>
-                                <td>Moe</td>
-                                <td>mary@example.com</td>
-                            </tr>
-                            <tr>
-                                <td>July</td>
-                                <td>Dooley</td>
-                                <td>july@example.com</td>
-                            </tr>
+                            <%                                    }
+                                }
+
+                            %>
+
+
                         </tbody>
                     </table>
                 </div>
-                <div class="col-sm-4">
-                    <a href="">
-                        <button type="button" id="ingresar">Ingresar</button>
-                    </a>
-                    <a href="">
-                        <button type="button" id="acualizar">Actualizar</button>
-                    </a>
-                    <a href="">
-                        <button type="button" id="buscar">Buscar</button>
-                    </a>
-                    <a href="">
-                        <button type="button"  id="editar">Editar</button>
-                    </a>
-                </div>
+
             </div>
         </div>
     </body>

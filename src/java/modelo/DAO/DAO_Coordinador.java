@@ -34,9 +34,9 @@ public class DAO_Coordinador implements DAO<Coordinador> {
             archivo.writeUTF(coordinador.getNombre());
             archivo.writeUTF(coordinador.getContraseña());
             archivo.writeUTF(coordinador.getCargo());
-            archivo.writeUTF("-                                        ".substring(0, 35));
-            archivo.writeUTF("-                                       ".substring(0, 8));
-            archivo.writeUTF("-                                        ".substring(0, 8));
+            archivo.writeUTF("                                        ".substring(0, 35));
+            archivo.writeUTF("                                       ".substring(0, 10));
+            archivo.writeUTF("                                        ".substring(0, 10));
             archivo.writeUTF("                              ".substring(0, 15));
             return true;
         }
@@ -81,12 +81,12 @@ public class DAO_Coordinador implements DAO<Coordinador> {
 
     }
 
-    /* public static void main(String[] args) throws FileNotFoundException, IOException {
-        DAO_Coordinador cor=new DAO_Coordinador();
-        DAO_Empleado emp=new  DAO_Empleado();
-        cor.crear(new Coordinador("coordinador@gmail.com                     ".substring(0,35),"Cordinador FULL HD                          ".substring(0,30) , "root                     ".substring(0,15), "Coordinador        ".substring(0,10)));
-        Operador op=emp.buscarEmpleado("coordinador@gmail.com                     ".subSequence(0, 35));
-        System.out.println(op.getContraseña());
-    
-    }*/
+    public static void main(String[] args) throws FileNotFoundException, IOException {
+        DAO_Coordinador cor = new DAO_Coordinador();
+        DAO_Empleado emp = new DAO_Empleado();
+        cor.crear(new Coordinador("coordinador@gmail.com                     ".substring(0, 35), "Cordinador FULL HD                          ".substring(0, 30), "root                     ".substring(0, 15), "Coordinador        ".substring(0, 11)));
+        Coordinador cors = cor.buscar("coordinador@gmail.com                     ".substring(0, 35));
+        System.out.println(cors.getContraseña());
+
+    }
 }

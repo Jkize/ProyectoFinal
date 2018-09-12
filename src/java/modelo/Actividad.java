@@ -11,7 +11,7 @@ package modelo;
  */
 public class Actividad {
 
-    private Integer codigo;
+    private Long codigo;
     private String nombre;
     private String descripcion;
     private Empresa empresa;
@@ -19,6 +19,15 @@ public class Actividad {
     private Servidor servidor;
     private String ejecucion;
     private String IntervaloTiempo;
+    private String fechaEspecifica;
+
+    public String getFechaEspecifica() {
+        return fechaEspecifica;
+    }
+
+    public void setFechaEspecifica(String fechaEspecifica) {
+        this.fechaEspecifica = fechaEspecifica;
+    }
     private String horaInicio;
     private Integer NroVecesDia;
     private String diasFestivos;
@@ -29,7 +38,7 @@ public class Actividad {
     public Actividad() {
     }
 
-    public Actividad(Integer codigo, String nombre, String descripcion, Empresa empresa, Categoria categoria, Servidor servidor, String ejecucion, String IntervaloTiempo, String horaInicio, Integer NroVecesDia, String diasFestivos, String urlManual, String urlVideo, Integer duracionEstimada) {
+    public Actividad(Long codigo, String nombre, String descripcion, Empresa empresa, Categoria categoria, Servidor servidor, String ejecucion, String IntervaloTiempo, String horaInicio, Integer NroVecesDia, String fechaEspecifica, String diasFestivos, String urlManual, String urlVideo, Integer duracionEstimada) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -44,13 +53,14 @@ public class Actividad {
         this.urlManual = urlManual;
         this.urlVideo = urlVideo;
         this.duracionEstimada = duracionEstimada;
+        this.fechaEspecifica=fechaEspecifica;
     }
 
-    public Integer getCodigo() {
+    public Long getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(Integer codigo) {
+    public void setCodigo(Long codigo) {
         this.codigo = codigo;
     }
 
