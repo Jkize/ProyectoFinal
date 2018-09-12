@@ -12,6 +12,10 @@
         <servlet-name>ServletECS</servlet-name>
         <servlet-class>Controlador.ServletECS</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletLogin</servlet-name>
+        <servlet-class>Controlador.ServletLogin</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletActividades</servlet-name>
         <url-pattern>/ServletActividades</url-pattern>
@@ -24,16 +28,10 @@
         <servlet-name>ServletECS</servlet-name>
         <url-pattern>/ServletECS</url-pattern>
     </servlet-mapping>
-    
-     
-    
-    
-    
-    
-    
-    
-    
-    
+    <servlet-mapping>
+        <servlet-name>ServletLogin</servlet-name>
+        <url-pattern>/ServletLogin</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

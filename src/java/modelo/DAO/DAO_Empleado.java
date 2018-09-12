@@ -95,9 +95,9 @@ public class DAO_Empleado {
             Operador op = buscarEmpleado(arbolArchivo.readUTF());
             arbolArchivo.skipBytes(12);
             if (op != null) {
-                if (!(op.getCargo().trim()).equals("Coordinador")) {
+                 
                     lista.add(op);
-                }
+                
             }
         }
         return lista;
@@ -118,6 +118,24 @@ public class DAO_Empleado {
         return null;
 
     }
+    
+    
+      public Operador buscarValidar(Object correo) throws FileNotFoundException, IOException {
+        int pos = (int) arbol.getPosArchivo((String) correo);
+        if (pos != -1) {
+            archivo.seek(pos);
+
+            Operador ope = new Operador(archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), new Sede(archivo.readUTF()));
+          
+                return ope;
+           
+
+        }
+
+        return null;
+
+    }
+    
 
     /**
      * Validar usuario. "-1" Datos Incorrecto.0 es suplente pero no puede
@@ -128,10 +146,12 @@ public class DAO_Empleado {
      * @return
      */
     public int validarUsuario(String correo, String contraseña) throws IOException, ParseException {
-        Operador ope = buscarEmpleado(correo);
-        if (ope != null && ope.getContraseña().equals(contraseña + "                          ".substring(0, 15))) {
-
-            if (ope.getCargo().equals("Coordinador")) {
+        Operador ope = buscarValidar(correo);
+        System.out.println(ope.getCorreo()+ope.getContraseña());
+        System.out.println(ope.getContraseña()+"   "+contraseña);
+        
+        if (ope != null && (ope.getContraseña().trim()).equals(contraseña.trim())) {           
+            if ((ope.getCargo().trim()).equals("Coordinador")) {
                 return 1;
             } else {
                 if (ope.getCargo().equals("Operador")) {

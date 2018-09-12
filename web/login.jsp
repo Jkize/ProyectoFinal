@@ -33,6 +33,7 @@
 </head>
 
 <body>
+       <form action="ServletLogin" method="POST">
   <!--Container general.-->
   <div class="container">
     <!--Jumbotron total.-->
@@ -56,15 +57,16 @@
             <i style="font-size:24px" class="fa">&#xf0c1;</i>
           </span>
         </div>
-        <input type="text" class="form-control" placeholder="Contraseña" name="contraseña">
+        <input type="text" class="form-control" placeholder="Contrasena" name="contrasena">
       </div>
       <center>
         <a href="">
-          <button type="button" class="btn btn-outline-dark">Ingresar</button>
+            <button type="submit" class="btn btn-outline-dark" name="Ingresar">Ingresar</button>
         </a>
       </center>
     </div>
   </div>
+       </form>
 </body>
 
 </html>

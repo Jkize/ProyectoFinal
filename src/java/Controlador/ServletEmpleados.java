@@ -61,7 +61,8 @@ public class ServletEmpleados extends HttpServlet {
         RequestDispatcher rq = request.getRequestDispatcher("empleados.jsp");
 
         ArrayList<Sede> sedes = this.daoSede.obtenerSedes();
-
+        ArrayList<Empleado> empleados = this.daoEmpleado.obtenerEmpleados();
+        request.setAttribute("empleados", empleados);
         request.setAttribute("sedes", sedes);
         rq.forward(request, response);
 
@@ -100,7 +101,7 @@ public class ServletEmpleados extends HttpServlet {
                     case "Coordinador":
                         break;
                     case "Suplente":
-                        suplente(correo, nombre, contrasena, cargo,  correoOperario, fechaInicio, fechaFin);
+                        suplente(correo, nombre, contrasena, cargo, correoOperario, fechaInicio, fechaFin);
                         break;
                 }
             }
@@ -152,7 +153,7 @@ public class ServletEmpleados extends HttpServlet {
                     (nombre + "                                                ").substring(0, 30),
                     (contrasena + "                                    ").substring(15),
                     (cargo + "    ").substring(0, 11),
-                    this.daoOperador.buscar((correoOperario + "                                                   ").substring(0,35)),
+                    this.daoOperador.buscar((correoOperario + "                                                   ").substring(0, 35)),
                     fechaInicio,
                     fechaFin));
         }

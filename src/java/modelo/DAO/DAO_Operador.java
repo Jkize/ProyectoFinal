@@ -68,7 +68,7 @@ public class DAO_Operador implements DAO<Operador> {
             archivo.seek(pos);
             Operador ope = new Operador(archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), (new DAO_Sede()).buscar(archivo.readUTF()));
 
-            if (ope.getCargo().equals("Operador")) {
+            if (ope.getCargo().equals("Operador   ")) {
                 return ope;
             } else {
                 return null;
