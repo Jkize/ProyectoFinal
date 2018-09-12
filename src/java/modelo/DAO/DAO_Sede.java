@@ -64,20 +64,23 @@ public class DAO_Sede implements DAO<Sede> {
     }
 
     public ArrayList<Sede> obtenerSedes() throws FileNotFoundException, IOException {
+       
         ArrayList<Sede> sedes = new ArrayList<>();
-        RandomAccessFile arbol = new RandomAccessFile("arbolSede", "rw");
-        int tam = (int) (arbol.length() / (8 + 12));
-        for (int i = 0; i < tam; i++) {
-            Sede sed = buscar((String) arbol.readUTF());
-            arbol.skipBytes(12);
+        RandomAccessFile archivoArbol = new RandomAccessFile("arbolSede", "rw");
+        int tam = (int) (archivoArbol.length() / (8 + 12));
+         
+        for (int i = 0; i < tam; i++) {            
+            Sede sed = buscar((String) archivoArbol.readUTF());
+            archivoArbol.skipBytes(12);
             if (sed != null) {
                 sedes.add(sed);
             }
         }
+       
         return sedes;
     }
 
-    /*
+    
     public static void main(String[] args) throws FileNotFoundException, IOException {
         DAO_Sede daoSede=new DAO_Sede();
         daoSede.crear(new Sede("Calle 100                    ".substring(0,15)));
@@ -85,5 +88,5 @@ public class DAO_Sede implements DAO<Sede> {
         for(Sede sede: daoSede.obtenerSedes() ){
             System.out.println(sede.getCodigo());
         }
-    }*/
+    }
 }

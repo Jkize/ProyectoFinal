@@ -5,12 +5,19 @@
  */
 package Controlador;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.DAO.*;
+import modelo.*;
 
 /**
  *
@@ -18,30 +25,25 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ServletEmpleados extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServletEmpleados</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServletEmpleados at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+    private DAO_Empleado daoEmpleado;
+    private DAO_Operador daoOperador;
+    private DAO_Coordinador daoCoordinador;
+    private DAO_Suplente daoSuplente;
+    private DAO_Sede daoSede;
+
+    @Override
+    public void init() throws ServletException {
+        try {
+            this.daoEmpleado = new DAO_Empleado();
+            this.daoCoordinador = new DAO_Coordinador();
+            this.daoSuplente = new DAO_Suplente();
+            this.daoOperador = new DAO_Operador();
+            this.daoSede = new DAO_Sede();
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ServletEmpleados.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -56,7 +58,12 @@ public class ServletEmpleados extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        RequestDispatcher rq = request.getRequestDispatcher("empleados.jsp");
+        ArrayList<Sede> sedes = this.daoSede.obtenerSedes();
+        request.setAttribute("sedes", sedes);
+        System.out.println("Entraaaa "+sedes.size());
+        rq.forward(request, response);
+
     }
 
     /**
@@ -70,7 +77,7 @@ public class ServletEmpleados extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
     }
 
     /**
