@@ -42,7 +42,7 @@
                       </div>
                       <ul class="nav navbar-nav">
                         <li><a href="actividades.jsp">Registro actividades</a></li>
-                        <li><a href="empleados.jsp">Registro Empleados</a></li>
+                        <li><a href="ServletEmpleados?inicio=1">Registro Empleados</a></li>
                         <li><a href="#">Registro Empresas y Categorías</a></li>
                       </ul>
                       <ul class="nav navbar-nav navbar-right">
