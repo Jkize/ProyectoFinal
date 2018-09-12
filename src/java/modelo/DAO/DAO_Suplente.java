@@ -39,7 +39,7 @@ public class DAO_Suplente implements DAO<Suplente> {
             archivo.writeUTF(operador.getCorreo());
             archivo.writeUTF(suplente.getFechaInicio());
             archivo.writeUTF(suplente.getFechaFin());
-            archivo.writeInt(operador.getSede().getCodigo());
+            archivo.writeUTF(operador.getSede().getCodigo());
             return true;
         }
         return false;
@@ -74,7 +74,7 @@ public class DAO_Suplente implements DAO<Suplente> {
             archivo.writeUTF(operador.getCorreo());
             archivo.writeUTF(suplente.getFechaInicio());
             archivo.writeUTF(suplente.getFechaFin());
-            archivo.writeInt(operador.getSede().getCodigo());
+            archivo.writeUTF(operador.getSede().getCodigo());
             return true;
         }
         return false;

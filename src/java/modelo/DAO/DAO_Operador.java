@@ -40,7 +40,7 @@ public class DAO_Operador implements DAO<Operador> {
                     archivo.writeUTF("                                                         ".substring(0, 35));
                     archivo.writeUTF("                               ".substring(0, 8));
                     archivo.writeUTF("                               ".substring(0, 8));
-                    archivo.writeInt(operador.getSede().getCodigo());
+                    archivo.writeUTF(operador.getSede().getCodigo());
                     return true;
                 }
 
@@ -53,7 +53,7 @@ public class DAO_Operador implements DAO<Operador> {
                     archivo.writeUTF(operador.getCorreoPlanta());
                     archivo.writeUTF(operador.getFechaInicio());
                     archivo.writeUTF(operador.getFechaFin());
-                    archivo.writeInt(operador.getSede().getCodigo());
+                    archivo.writeUTF(operador.getSede().getCodigo());
                     return true;
                 }
             }
@@ -67,7 +67,7 @@ public class DAO_Operador implements DAO<Operador> {
         int pos = (int) arbol.getPosArchivo((String) correo);
         if (pos != -1) {
             archivo.seek(pos);
-            Operador ope = new Operador(archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), (new DAO_Sede()).buscar(archivo.readInt()));
+            Operador ope = new Operador(archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), (new DAO_Sede()).buscar(archivo.readUTF()));
 
             if (ope.getCargo().equals("Operador")) {
                 return ope;
@@ -94,7 +94,7 @@ public class DAO_Operador implements DAO<Operador> {
                 archivo.writeUTF("                                                         ".substring(0, 35));
                 archivo.writeUTF("                               ".substring(0, 8));
                 archivo.writeUTF("                               ".substring(0, 8));
-                archivo.writeInt(operador.getSede().getCodigo());
+                archivo.writeUTF(operador.getSede().getCodigo());
                 return true;
 
             } else {
@@ -107,7 +107,7 @@ public class DAO_Operador implements DAO<Operador> {
                     archivo.writeUTF(operador.getCorreoPlanta());
                     archivo.writeUTF(operador.getFechaInicio());
                     archivo.writeUTF(operador.getFechaFin());
-                    archivo.writeInt(operador.getSede().getCodigo());
+                    archivo.writeUTF(operador.getSede().getCodigo());
                     return true;
 
                 }

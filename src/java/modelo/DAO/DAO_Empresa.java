@@ -34,7 +34,7 @@ public class DAO_Empresa implements DAO<Empresa> {
         if ((new DAO_Sede()).buscar(empresa.getSede().getCodigo()) != null && arbol.añadir(empresa.getCodigo(), (int) archivo.length())) {
             archivo.writeInt(empresa.getCodigo());
             archivo.writeUTF(empresa.getNombre());
-            archivo.writeInt(empresa.getSede().getCodigo());
+            archivo.writeUTF(empresa.getSede().getCodigo());
             return true;
         }
 
@@ -59,7 +59,7 @@ public class DAO_Empresa implements DAO<Empresa> {
         if ((new DAO_Sede()).buscar(empresa.getSede().getCodigo()) != null && pos != -1) {
             archivo.writeInt(empresa.getCodigo());
             archivo.writeUTF(empresa.getNombre());
-            archivo.writeInt(empresa.getSede().getCodigo());
+            archivo.writeUTF(empresa.getSede().getCodigo());
             return true;
         }
         return false;

@@ -11,20 +11,20 @@ package modelo;
  */
 public class Sede {
 
-    private int codigo;
+    private String codigo;
 
-    public Sede(int codigo) {
+    public Sede(String codigo) {
         this.codigo = codigo;
     }
 
     public Sede() {
     }
 
-    public int getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(int codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 

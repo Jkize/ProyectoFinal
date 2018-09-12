@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 package modelo.DAO;
-
-import Estructura.Arbol_Archivo_IdLong;
+ 
+import Estructura.Arbol_Archivo_IdString;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -19,11 +19,11 @@ import modelo.Sede;
 public class DAO_Sede implements DAO<Sede> {
 
     private RandomAccessFile archivo;
-    private Arbol_Archivo_IdLong arbol;
+    private Arbol_Archivo_IdString arbol;
 
     public DAO_Sede() throws FileNotFoundException {
         archivo = new RandomAccessFile("Sede", "rw");
-        arbol = new Arbol_Archivo_IdLong("Sede");
+        arbol = new Arbol_Archivo_IdString("Sede");
     }
 
     @Override
@@ -31,7 +31,7 @@ public class DAO_Sede implements DAO<Sede> {
         archivo.seek(archivo.length());
 
         if (arbol.añadir(sede.getCodigo(), (int) archivo.length())) {
-            archivo.writeInt(sede.getCodigo());
+            archivo.writeUTF(sede.getCodigo());
             return true;
         }
 
@@ -40,10 +40,10 @@ public class DAO_Sede implements DAO<Sede> {
 
     @Override
     public Sede buscar(Object sede) throws FileNotFoundException, IOException {
-        int pos = (int) arbol.getPosArchivo((int) sede);
+        int pos = (int) arbol.getPosArchivo((String) sede);
         if (pos != -1) {
             archivo.seek(pos);
-            return new Sede(archivo.readInt());
+            return new Sede(archivo.readUTF());
         }
         return null;
 
@@ -56,7 +56,7 @@ public class DAO_Sede implements DAO<Sede> {
 
     @Override
     public boolean eliminar(Object id) throws FileNotFoundException, IOException {
-        if (archivo.length() != 0 && arbol.eliminar((int) id)) {
+        if (archivo.length() != 0 && arbol.eliminar((String) id)) {
             return true;
         }
         return false;
