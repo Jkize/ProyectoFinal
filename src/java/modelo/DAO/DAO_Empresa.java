@@ -9,6 +9,8 @@ import Estructura.Arbol_Archivo_IdLong;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
+import modelo.Categoria;
 import modelo.Empresa;
 
 /**
@@ -70,4 +72,19 @@ public class DAO_Empresa implements DAO<Empresa> {
         }
         return false;
     }
+
+    public ArrayList<Empresa> obtenerEmpresas() throws FileNotFoundException, IOException {
+        ArrayList<Empresa> lista = new ArrayList<>();
+        RandomAccessFile arbol = new RandomAccessFile("arbolCategoria", "rw");
+        int tam = (int) (arbol.length() / (8 + 12));
+        for (int i = 0; i < tam; i++) {
+            Empresa empresa = buscar((int) arbol.readLong());
+            arbol.skipBytes(12);
+            if (empresa != null) {
+                lista.add(empresa);
+            }
+        }
+        return lista;
+    }
+
 }

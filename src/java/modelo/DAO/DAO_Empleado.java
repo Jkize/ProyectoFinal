@@ -88,10 +88,10 @@ public class DAO_Empleado {
 
     public ArrayList<Empleado> obtenerEmpleados() throws FileNotFoundException, IOException {
         ArrayList<Empleado> lista = new ArrayList<>();
-        RandomAccessFile arbol = new RandomAccessFile("arbolEmpleado", "");
-        int tam = (int) (arbol.length() / (37 + 12));
+        RandomAccessFile arbolArchivo = new RandomAccessFile("arbolEmpleado", "");
+        int tam = (int) (arbolArchivo.length() / (37 + 12));
         for (int i = 0; i < tam; i++) {
-            Operador op = buscarEmpleado(arbol.readUTF());
+            Operador op = buscarEmpleado(arbolArchivo.readUTF());
             if (op != null) {
                 lista.add(op);
             }

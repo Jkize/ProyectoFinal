@@ -9,6 +9,7 @@ import Estructura.Arbol_Archivo_IdLong;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 import modelo.Sede;
 
 /**
@@ -60,6 +61,20 @@ public class DAO_Sede implements DAO<Sede> {
         }
         return false;
 
+    }
+
+    public ArrayList<Sede> obtenerSedes() throws FileNotFoundException, IOException {
+        ArrayList<Sede> sedes = new ArrayList<>();
+        RandomAccessFile arbol = new RandomAccessFile("arbolSede", "rw");
+        int tam = (int) (arbol.length() / (8 + 12));
+        for (int i = 0; i < tam; i++) {
+            Sede sed = buscar((int) arbol.readLong());
+            arbol.skipBytes(12);
+            if (sed != null) {
+                sedes.add(sed);
+            }
+        }
+        return sedes;
     }
 
 }
