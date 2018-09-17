@@ -18,6 +18,11 @@ public class Empresa {
     public Empresa() {
     }
 
+    public Empresa(Integer codigo) {
+        this.codigo = codigo;
+    }
+
+    
     public Empresa(Integer codigo, String nombre, Sede sede) {
         this.codigo = codigo;
         this.nombre = nombre;

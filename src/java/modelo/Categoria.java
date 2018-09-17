@@ -21,6 +21,11 @@ public class Categoria {
         this.nombre = nombre;
     }
 
+    public Categoria(Integer codigo) {
+        this.codigo = codigo;
+    }
+    
+
     public Integer getCodigo() {
         return codigo;
     }

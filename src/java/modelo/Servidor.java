@@ -15,9 +15,15 @@ public class Servidor {
     private String nombre;
     private Empresa empresa;
 
+    
     public Servidor() {
     }
 
+    public Servidor(Integer codigo) {
+        this.codigo = codigo;
+    }
+
+    
     public Servidor(Integer codigo, String nombre, Empresa empresa) {
         this.codigo = codigo;
         this.nombre = nombre;

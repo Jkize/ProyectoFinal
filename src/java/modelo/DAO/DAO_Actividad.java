@@ -9,6 +9,7 @@ import Estructura.Arbol_Archivo_IdLong;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 import modelo.*;
 import modelo.DAO.*;
 
@@ -39,9 +40,9 @@ public class DAO_Actividad implements DAO<Actividad> {
             archivo.writeUTF(actividad.getEjecucion());
             archivo.writeInt(actividad.getIntervaloTiempo());
             archivo.writeUTF(actividad.getHoraInicio());
-            archivo.writeInt(actividad.getNroVecesDia());             
+            archivo.writeInt(actividad.getNroVecesDia());
             archivo.writeUTF(actividad.getFechaEspecifica());
-            archivo.writeUTF(actividad.getDiasFestivos());
+            archivo.writeBoolean(actividad.getDiasFestivos());
             archivo.writeUTF(actividad.getUrlManual());
             archivo.writeUTF(actividad.getUrlVideo());
             archivo.writeInt(actividad.getDuracionEstimada());
@@ -58,18 +59,50 @@ public class DAO_Actividad implements DAO<Actividad> {
         int pos = (int) arbol.getPosArchivo((long) codigo);
         if (pos != -1) {
             archivo.seek(pos);
-            return new Actividad(archivo.readLong(), archivo.readUTF(), archivo.readUTF(), (new DAO_Empresa()).buscar(archivo.readInt()),
-                    (new DAO_Categoria()).buscar(archivo.readInt()), (new DAO_Servidor()).buscar(archivo.readInt()),
-                    archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readInt(),
-                    archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readInt());
+            return new Actividad(archivo.readLong(),
+                    archivo.readUTF(),
+                    archivo.readUTF(),
+                    new Empresa(archivo.readInt()),
+                    new Categoria(archivo.readInt()),
+                    new Servidor(archivo.readInt()),
+                    archivo.readUTF(),
+                    archivo.readInt(),
+                    archivo.readUTF(),
+                    archivo.readInt(),
+                    archivo.readUTF(),
+                    archivo.readBoolean(),
+                    archivo.readUTF(),
+                    archivo.readUTF(),
+                    archivo.readInt());
         }
         return null;
 
     }
 
     @Override
-    public boolean actualizar(Actividad ob) throws FileNotFoundException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean actualizar(Actividad actividad) throws FileNotFoundException, IOException {
+        int pos = (int) arbol.getPosArchivo(actividad.getCodigo());
+
+        if (pos != -1) {
+            archivo.writeLong(actividad.getCodigo());
+            archivo.writeUTF(actividad.getNombre());
+            archivo.writeUTF(actividad.getDescripcion());
+            archivo.writeInt(actividad.getEmpresa().getCodigo());
+            archivo.writeInt(actividad.getCategoria().getCodigo());
+            archivo.writeInt(actividad.getServidor().getCodigo());
+            archivo.writeUTF(actividad.getEjecucion());
+            archivo.writeInt(actividad.getIntervaloTiempo());
+            archivo.writeUTF(actividad.getHoraInicio());
+            archivo.writeInt(actividad.getNroVecesDia());
+            archivo.writeUTF(actividad.getFechaEspecifica());
+            archivo.writeBoolean(actividad.getDiasFestivos());
+            archivo.writeUTF(actividad.getUrlManual());
+            archivo.writeUTF(actividad.getUrlVideo());
+            archivo.writeInt(actividad.getDuracionEstimada());
+            return true;
+        }
+
+        return false;
     }
 
     @Override
@@ -78,6 +111,20 @@ public class DAO_Actividad implements DAO<Actividad> {
             return true;
         }
         return false;
+    }
+
+    public ArrayList<Actividad> obtenerActividades() throws FileNotFoundException, IOException {
+        ArrayList<Actividad> actividades = new ArrayList<>();
+        RandomAccessFile archivo = new RandomAccessFile("arbolActividad", "rw");
+        int tam = (int) archivo.length() / (8 + 12);
+        for (int i = 0; i < tam; i++) {
+            Actividad act = buscar(archivo.readLong());
+            if (act != null) {
+                actividades.add(act);
+            }
+
+        }
+        return actividades;
     }
 
 }

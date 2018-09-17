@@ -45,10 +45,8 @@ public class DAO_Servidor implements DAO<Servidor> {
     public Servidor buscar(Object codigo) throws FileNotFoundException, IOException {
         int pos = (int) arbol.getPosArchivo((int) codigo);
         if (pos != -1) {
-            archivo.seek(pos);
-            Empresa empr = new Empresa();
-            Servidor server = new Servidor(archivo.readInt(), archivo.readUTF(), empr);
-            empr.setCodigo(archivo.readInt());
+            archivo.seek(pos); 
+            Servidor server = new Servidor(archivo.readInt(), archivo.readUTF(), new Empresa(archivo.readInt()));            
             return server;
         }
         return null;

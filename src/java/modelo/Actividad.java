@@ -22,7 +22,7 @@ public class Actividad {
     private String fechaEspecifica;
     private String horaInicio;
     private Integer NroVecesDia;
-    private String diasFestivos;
+    private boolean diasFestivos;
     private String urlManual;
     private String urlVideo;
     private Integer duracionEstimada;
@@ -38,7 +38,7 @@ public class Actividad {
     public Actividad() {
     }
 
-    public Actividad(Long codigo, String nombre, String descripcion, Empresa empresa, Categoria categoria, Servidor servidor, String ejecucion, int IntervaloTiempo, String horaInicio, Integer NroVecesDia, String fechaEspecifica, String diasFestivos, String urlManual, String urlVideo, Integer duracionEstimada) {
+    public Actividad(Long codigo, String nombre, String descripcion, Empresa empresa, Categoria categoria, Servidor servidor, String ejecucion, int IntervaloTiempo, String horaInicio, Integer NroVecesDia, String fechaEspecifica, boolean diasFestivos, String urlManual, String urlVideo, Integer duracionEstimada) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -136,11 +136,11 @@ public class Actividad {
         this.NroVecesDia = NroVecesDia;
     }
 
-    public String getDiasFestivos() {
+    public boolean getDiasFestivos() {
         return diasFestivos;
     }
 
-    public void setDiasFestivos(String diasFestivos) {
+    public void setDiasFestivos(boolean diasFestivos) {
         this.diasFestivos = diasFestivos;
     }
 

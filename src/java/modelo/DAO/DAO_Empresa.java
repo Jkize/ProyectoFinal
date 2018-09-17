@@ -9,8 +9,7 @@ import Estructura.Arbol_Archivo_IdLong;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.ArrayList;
-import modelo.Categoria;
+import java.util.ArrayList; 
 import modelo.Empresa;
 import modelo.Sede;
 
