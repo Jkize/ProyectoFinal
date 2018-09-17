@@ -30,7 +30,6 @@ public class DAO_Categoria implements DAO<Categoria> {
     @Override
     public boolean crear(Categoria categoria) throws FileNotFoundException, IOException {
         archivo.seek(archivo.length());
-
         if (arbol.añadir(categoria.getCodigo(), (int) archivo.length())) {
             archivo.writeInt(categoria.getCodigo());
             archivo.writeUTF(categoria.getNombre());

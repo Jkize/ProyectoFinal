@@ -18,8 +18,14 @@ public class Actividad {
     private Categoria categoria;
     private Servidor servidor;
     private String ejecucion;
-    private String IntervaloTiempo;
+    private Integer IntervaloTiempo;
     private String fechaEspecifica;
+    private String horaInicio;
+    private Integer NroVecesDia;
+    private String diasFestivos;
+    private String urlManual;
+    private String urlVideo;
+    private Integer duracionEstimada;
 
     public String getFechaEspecifica() {
         return fechaEspecifica;
@@ -28,17 +34,11 @@ public class Actividad {
     public void setFechaEspecifica(String fechaEspecifica) {
         this.fechaEspecifica = fechaEspecifica;
     }
-    private String horaInicio;
-    private Integer NroVecesDia;
-    private String diasFestivos;
-    private String urlManual;
-    private String urlVideo;
-    private Integer duracionEstimada;
 
     public Actividad() {
     }
 
-    public Actividad(Long codigo, String nombre, String descripcion, Empresa empresa, Categoria categoria, Servidor servidor, String ejecucion, String IntervaloTiempo, String horaInicio, Integer NroVecesDia, String fechaEspecifica, String diasFestivos, String urlManual, String urlVideo, Integer duracionEstimada) {
+    public Actividad(Long codigo, String nombre, String descripcion, Empresa empresa, Categoria categoria, Servidor servidor, String ejecucion, int IntervaloTiempo, String horaInicio, Integer NroVecesDia, String fechaEspecifica, String diasFestivos, String urlManual, String urlVideo, Integer duracionEstimada) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -53,7 +53,7 @@ public class Actividad {
         this.urlManual = urlManual;
         this.urlVideo = urlVideo;
         this.duracionEstimada = duracionEstimada;
-        this.fechaEspecifica=fechaEspecifica;
+        this.fechaEspecifica = fechaEspecifica;
     }
 
     public Long getCodigo() {
@@ -112,11 +112,11 @@ public class Actividad {
         this.ejecucion = ejecucion;
     }
 
-    public String getIntervaloTiempo() {
+    public Integer getIntervaloTiempo() {
         return IntervaloTiempo;
     }
 
-    public void setIntervaloTiempo(String IntervaloTiempo) {
+    public void setIntervaloTiempo(int IntervaloTiempo) {
         this.IntervaloTiempo = IntervaloTiempo;
     }
 

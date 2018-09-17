@@ -12,6 +12,7 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import modelo.Categoria;
 import modelo.Empresa;
+import modelo.Sede;
 
 /**
  *
@@ -31,7 +32,7 @@ public class DAO_Empresa implements DAO<Empresa> {
     public boolean crear(Empresa empresa) throws FileNotFoundException, IOException {
         archivo.seek(archivo.length());
 
-        if ((new DAO_Sede()).buscar(empresa.getSede().getCodigo()) != null && arbol.añadir(empresa.getCodigo(), (int) archivo.length())) {
+        if (arbol.añadir(empresa.getCodigo(), (int) archivo.length())) {
             archivo.writeInt(empresa.getCodigo());
             archivo.writeUTF(empresa.getNombre());
             archivo.writeUTF(empresa.getSede().getCodigo());
@@ -43,20 +44,19 @@ public class DAO_Empresa implements DAO<Empresa> {
     }
 
     @Override
-    public Empresa buscar(Object codigo) throws FileNotFoundException, IOException {
-        int pos = (int) arbol.getPosArchivo((int) codigo);
+    public Empresa buscar(Object codigo) throws FileNotFoundException, IOException {         
+        int pos = (int) arbol.getPosArchivo((int)codigo);
         if (pos != -1) {
             archivo.seek(pos);
-            return new Empresa(archivo.readInt(), archivo.readUTF(), (new DAO_Sede()).buscar(archivo.readInt()));
+            return new Empresa(archivo.readInt(), archivo.readUTF(), new Sede(archivo.readUTF()));
         }
         return null;
     }
 
     @Override
     public boolean actualizar(Empresa empresa) throws FileNotFoundException, IOException {
-
-        int pos = (int) arbol.getPosArchivo((int) empresa.getCodigo());
-        if ((new DAO_Sede()).buscar(empresa.getSede().getCodigo()) != null && pos != -1) {
+        int pos = (int) arbol.getPosArchivo(empresa.getCodigo());
+        if (pos != -1) {
             archivo.writeInt(empresa.getCodigo());
             archivo.writeUTF(empresa.getNombre());
             archivo.writeUTF(empresa.getSede().getCodigo());
@@ -75,7 +75,7 @@ public class DAO_Empresa implements DAO<Empresa> {
 
     public ArrayList<Empresa> obtenerEmpresas() throws FileNotFoundException, IOException {
         ArrayList<Empresa> lista = new ArrayList<>();
-        RandomAccessFile arbol = new RandomAccessFile("arbolCategoria", "rw");
+        RandomAccessFile arbol = new RandomAccessFile("arbolEmpresa", "rw");
         int tam = (int) (arbol.length() / (8 + 12));
         for (int i = 0; i < tam; i++) {
             Empresa empresa = buscar((int) arbol.readLong());

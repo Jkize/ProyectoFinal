@@ -28,7 +28,7 @@ public class ServletEmpleados extends HttpServlet {
     private DAO_Empleado daoEmpleado;
     private DAO_Operador daoOperador;
     private DAO_Coordinador daoCoordinador;
-    private DAO_Suplente daoSuplente;
+    private DAO_Empleado daoSuplente;
     private DAO_Sede daoSede;
 
     @Override
@@ -36,7 +36,7 @@ public class ServletEmpleados extends HttpServlet {
         try {
             this.daoEmpleado = new DAO_Empleado();
             this.daoCoordinador = new DAO_Coordinador();
-            this.daoSuplente = new DAO_Suplente();
+            this.daoSuplente = new DAO_Empleado();
             this.daoOperador = new DAO_Operador();
             this.daoSede = new DAO_Sede();
 

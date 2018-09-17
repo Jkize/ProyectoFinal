@@ -9,169 +9,103 @@ import Estructura.Arbol_Archivo_IdString;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import modelo.Coordinador;
 import modelo.Empleado;
-import modelo.Operador;
 import modelo.Sede;
-import modelo.Suplente;
 
 /**
  *
  * @author Jhoan Saavedra
  */
-public class DAO_Empleado {
+public class DAO_Empleado implements DAO<Empleado> {
 
     private RandomAccessFile archivo;
     private Arbol_Archivo_IdString arbol;
-    DAO_Coordinador daoCoordinador;
-    DAO_Operador daoOperador;
-    DAO_Suplente daoSuplente;
 
     public DAO_Empleado() throws FileNotFoundException {
         archivo = new RandomAccessFile("Empleado", "rw");
         arbol = new Arbol_Archivo_IdString("Empleado");
-        daoCoordinador = new DAO_Coordinador();
-        daoOperador = new DAO_Operador();
-        daoSuplente = new DAO_Suplente();
     }
 
-    public boolean crearCoordinador(Coordinador cordinador) throws IOException {
-        return this.daoCoordinador.crear(cordinador);
-    }
+    @Override
+    public boolean crear(Empleado empleado) throws FileNotFoundException, IOException {
+        archivo.seek(archivo.length());
 
-    public Coordinador buscarCoordinador(Object correo) throws IOException {
-        return this.daoCoordinador.buscar(correo);
-    }
-
-    public boolean actualizarCoordinador(Coordinador coordinador) throws IOException {
-        return this.daoCoordinador.actualizar(coordinador);
-    }
-
-    public boolean eliminarCoordinador(Object correo) throws IOException {
-        return this.daoCoordinador.eliminar(correo);
-    }
-
-    public boolean crearOperador(Operador operador) throws IOException {
-        return this.daoOperador.crear(operador);
-    }
-
-    public Operador buscarOperador(Object correo) throws IOException {
-        return this.daoOperador.buscar(correo);
-    }
-
-    public boolean actualizarOperador(Operador operador) throws IOException {
-        return this.daoOperador.actualizar(operador);
-    }
-
-    public boolean eliminarOperador(Object correo) throws IOException {
-        return this.eliminarOperador(correo);
-    }
-
-    public boolean crearSuplente(Suplente suplente) throws IOException {
-        return this.daoSuplente.crear(suplente);
-    }
-
-    public Suplente buscarSuplente(Object correo) throws IOException {
-        return this.daoSuplente.buscar(correo);
-    }
-
-    public boolean actualizarSuplente(Suplente suplente) throws IOException {
-        return this.daoSuplente.actualizar(suplente);
-    }
-
-    public boolean eliminarSuplente(Object correo) throws IOException {
-        return this.eliminarSuplente(correo);
-    }
-
-    public ArrayList<Empleado> obtenerEmpleados() throws FileNotFoundException, IOException {
-        ArrayList<Empleado> lista = new ArrayList<>();
-        RandomAccessFile arbolArchivo = new RandomAccessFile("arbolEmpleado", "rw");
-        int tam = (int) (arbolArchivo.length() / (37 + 12));
-        for (int i = 0; i < tam; i++) {
-            Operador op = buscarEmpleado(arbolArchivo.readUTF());
-            arbolArchivo.skipBytes(12);
-            if (op != null) {
-                 
-                    lista.add(op);
-                
-            }
+        if (arbol.añadir(empleado.getCorreo(), (int) archivo.length())) {
+            archivo.writeUTF(empleado.getCorreo());
+            archivo.writeUTF(empleado.getNombre());
+            archivo.writeUTF(empleado.getContraseña());
+            archivo.writeUTF(empleado.getCargo());
+            archivo.writeUTF(empleado.getEmpleado().getCorreo());
+            archivo.writeUTF(empleado.getFechaInicio());
+            archivo.writeUTF(empleado.getFechaFin());
+            archivo.writeUTF(empleado.getSede().getCodigo());
+            return true;
         }
-        return lista;
+        return false;
+
     }
 
-    public Operador buscarEmpleado(Object correo) throws FileNotFoundException, IOException {
+    @Override
+    public Empleado buscar(Object correo) throws FileNotFoundException, IOException {
         int pos = (int) arbol.getPosArchivo((String) correo);
         if (pos != -1) {
             archivo.seek(pos);
-
-            Operador ope = new Operador(archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), new Sede(archivo.readUTF()));
-            if (!(ope.getCargo().trim()).equals("Coordinador")) {
-                return ope;
-            }
-
+            Empleado empleado = new Empleado(archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF());
+            String correoPlanta = archivo.readUTF();
+            Empleado plata = new Empleado();
+            plata.setCorreo(correoPlanta);
+            empleado.setCorreo(correoPlanta);
+            empleado.setFechaInicio(archivo.readUTF());
+            empleado.setFechaFin(archivo.readUTF());
+            empleado.setSede(new Sede(archivo.readUTF()));
+            return empleado;
         }
 
         return null;
 
     }
-    
-    
-      public Operador buscarValidar(Object correo) throws FileNotFoundException, IOException {
-        int pos = (int) arbol.getPosArchivo((String) correo);
-        if (pos != -1) {
-            archivo.seek(pos);
 
-            Operador ope = new Operador(archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), archivo.readUTF(), new Sede(archivo.readUTF()));
-          
-                return ope;
+    @Override
+    public boolean actualizar(Empleado empleado) throws FileNotFoundException, IOException {
+        int pos = (int) arbol.getPosArchivo(empleado.getCorreo());
+        if (pos != -1) {
+            archivo.writeUTF(empleado.getCorreo());
+            archivo.writeUTF(empleado.getNombre());
+            archivo.writeUTF(empleado.getContraseña());
+            archivo.writeUTF(empleado.getCargo());
+            archivo.writeUTF(empleado.getEmpleado().getCorreo());
+            archivo.writeUTF(empleado.getFechaInicio());
+            archivo.writeUTF(empleado.getFechaFin());
+            archivo.writeUTF(empleado.getSede().getCodigo());
+            return true;
+        }
+        return false;
+
+    }
+
+    @Override
+    public boolean eliminar(Object correo) throws FileNotFoundException, IOException {
+        if (archivo.length() != 0 && arbol.eliminar((String) correo)) {
+            return true;
+        }
+        return false;
+
+    }
+    
+    public ArrayList<Empleado> obtenerEmpleados() throws FileNotFoundException, IOException{
+       ArrayList<Empleado> empleados=new ArrayList<>();
+       RandomAccessFile  archivo = new RandomAccessFile("arbolEmpleado", "rw");
+       int num=(int)(archivo.length())/(27+12);
+       for(int i=0; i<num; i++){
+           Empleado empleado=buscar(archivo.readUTF());
+           if(empleado!=null && !(empleado.getCargo().trim()).equals("Coordinador"))
+               empleados.add(empleado);
            
-
-        }
-
-        return null;
-
-    }
-    
-
-    /**
-     * Validar usuario. "-1" Datos Incorrecto.0 es suplente pero no puede
-     * logearse. 1-Coordinador. 2-Empleado. 3-Suplente
-     *
-     * @param correo
-     * @param contraseña
-     * @return
-     */
-    public int validarUsuario(String correo, String contraseña) throws IOException, ParseException {
-        Operador ope = buscarValidar(correo);
-        System.out.println(ope.getCorreo()+ope.getContraseña());
-        System.out.println(ope.getContraseña()+"   "+contraseña);
-        
-        if (ope != null && (ope.getContraseña().trim()).equals(contraseña.trim())) {           
-            if ((ope.getCargo().trim()).equals("Coordinador")) {
-                return 1;
-            } else {
-                if (ope.getCargo().equals("Operador")) {
-                    return 2;
-
-                } else {
-                    SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
-                    Date fechaInicio = formateador.parse(ope.getFechaInicio());
-                    Date fechaFin = formateador.parse(ope.getFechaFin());
-                    Date fechaActual = new Date();
-                    if (fechaActual.after(fechaInicio) && fechaActual.before(fechaFin)) {
-                        return 3;
-                    } else {
-                        return 0;
-                    }
-                }
-            }
-
-        }
-        return -1;
+           archivo.skipBytes(12);
+       }
+             
+       return empleados;
     }
 
 }

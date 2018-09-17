@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
+import modelo.Empresa;
 import modelo.Servidor;
 
 /**
@@ -30,7 +31,7 @@ public class DAO_Servidor implements DAO<Servidor> {
     public boolean crear(Servidor servidor) throws FileNotFoundException, IOException {
         archivo.seek(archivo.length());
 
-        if ((new DAO_Empresa()).buscar(servidor.getEmpresa().getCodigo()) != null && arbol.añadir(servidor.getCodigo(), (int) archivo.length())) {
+        if (arbol.añadir(servidor.getCodigo(), (int) archivo.length())) {
             archivo.writeInt(servidor.getCodigo());
             archivo.writeUTF(servidor.getNombre());
             archivo.writeInt(servidor.getEmpresa().getCodigo());
@@ -45,8 +46,10 @@ public class DAO_Servidor implements DAO<Servidor> {
         int pos = (int) arbol.getPosArchivo((int) codigo);
         if (pos != -1) {
             archivo.seek(pos);
-            return new Servidor(archivo.readInt(), archivo.readUTF(), (new DAO_Empresa()).buscar(archivo.readInt()));
-
+            Empresa empr = new Empresa();
+            Servidor server = new Servidor(archivo.readInt(), archivo.readUTF(), empr);
+            empr.setCodigo(archivo.readInt());
+            return server;
         }
         return null;
     }
@@ -55,7 +58,7 @@ public class DAO_Servidor implements DAO<Servidor> {
     public boolean actualizar(Servidor servidor) throws FileNotFoundException, IOException {
 
         int pos = (int) arbol.getPosArchivo((int) servidor.getCodigo());
-        if ((new DAO_Empresa()).buscar(servidor.getEmpresa().getCodigo()) != null && pos != -1) {
+        if (pos!= -1) {
             archivo.writeInt(servidor.getCodigo());
             archivo.writeUTF(servidor.getNombre());
             archivo.writeInt(servidor.getEmpresa().getCodigo());
@@ -75,7 +78,7 @@ public class DAO_Servidor implements DAO<Servidor> {
 
     public ArrayList<Servidor> obtenerServidores() throws FileNotFoundException, IOException {
         ArrayList<Servidor> lista = new ArrayList<>();
-        RandomAccessFile arbol = new RandomAccessFile("arbolCategoria", "rw");
+        RandomAccessFile arbol = new RandomAccessFile("arbolServidor", "rw");
         int tam = (int) (arbol.length() / (8 + 12));
         for (int i = 0; i < tam; i++) {
             Servidor servidor = buscar((int) arbol.readLong());

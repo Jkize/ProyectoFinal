@@ -29,27 +29,24 @@ public class DAO_Actividad implements DAO<Actividad> {
     @Override
     public boolean crear(Actividad actividad) throws FileNotFoundException, IOException {
         archivo.seek(archivo.length());
-        if ((new DAO_Categoria()).buscar(actividad.getCategoria().getCodigo()) != null && (new DAO_Empresa()).buscar(actividad.getEmpresa().getCodigo()) != null
-                && (new DAO_Servidor()).buscar(actividad.getServidor().getCodigo()) != null) {
-            if (arbol.añadir(actividad.getCodigo(), (int) archivo.length())) {
-                archivo.writeLong(actividad.getCodigo());
-                archivo.writeUTF(actividad.getNombre());
-                archivo.writeUTF(actividad.getDescripcion());
-                archivo.writeInt(actividad.getEmpresa().getCodigo());
-                archivo.writeInt(actividad.getCategoria().getCodigo());
-                archivo.writeInt(actividad.getServidor().getCodigo());
-                archivo.writeUTF(actividad.getEjecucion());
-                archivo.writeUTF(actividad.getIntervaloTiempo());
-                archivo.writeUTF(actividad.getHoraInicio());
-                archivo.writeInt(actividad.getNroVecesDia());
-                archivo.writeUTF(actividad.getFechaEspecifica());
-                archivo.writeUTF(actividad.getDiasFestivos());
-                archivo.writeUTF(actividad.getUrlManual());
-                archivo.writeUTF(actividad.getUrlVideo());
-                archivo.writeInt(actividad.getDuracionEstimada());
+        if (arbol.añadir(actividad.getCodigo(), (int) archivo.length())) {
+            archivo.writeLong(actividad.getCodigo());
+            archivo.writeUTF(actividad.getNombre());
+            archivo.writeUTF(actividad.getDescripcion());
+            archivo.writeInt(actividad.getEmpresa().getCodigo());
+            archivo.writeInt(actividad.getCategoria().getCodigo());
+            archivo.writeInt(actividad.getServidor().getCodigo());
+            archivo.writeUTF(actividad.getEjecucion());
+            archivo.writeInt(actividad.getIntervaloTiempo());
+            archivo.writeUTF(actividad.getHoraInicio());
+            archivo.writeInt(actividad.getNroVecesDia());             
+            archivo.writeUTF(actividad.getFechaEspecifica());
+            archivo.writeUTF(actividad.getDiasFestivos());
+            archivo.writeUTF(actividad.getUrlManual());
+            archivo.writeUTF(actividad.getUrlVideo());
+            archivo.writeInt(actividad.getDuracionEstimada());
 
-                return true;
-            }
+            return true;
         }
 
         return false;

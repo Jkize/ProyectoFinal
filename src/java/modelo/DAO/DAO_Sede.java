@@ -29,7 +29,6 @@ public class DAO_Sede implements DAO<Sede> {
     @Override
     public boolean crear(Sede sede) throws FileNotFoundException, IOException {
         archivo.seek(archivo.length());
-
         if (arbol.añadir(sede.getCodigo(), (int) archivo.length())) {
             archivo.writeUTF(sede.getCodigo());
             return true;
@@ -85,6 +84,7 @@ public class DAO_Sede implements DAO<Sede> {
         DAO_Sede daoSede=new DAO_Sede();
         daoSede.crear(new Sede("Calle 100                    ".substring(0,15)));
         daoSede.crear(new Sede("Celta                          ".substring(0,15)));
+        
         for(Sede sede: daoSede.obtenerSedes() ){
             System.out.println(sede.getCodigo().length());
         }

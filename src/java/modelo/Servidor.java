@@ -31,6 +31,7 @@ public class Servidor {
     public void setCodigo(Integer codigo) {
         this.codigo = codigo;
     }
+    
 
     public String getNombre() {
         return nombre;
